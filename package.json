@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "download-bible": "node scripts/download-bible.js",
+    "setup": "npm run download-bible && npm run dev"
   },
   "dependencies": {
     "react": "19.1.0",
