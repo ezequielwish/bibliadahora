@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/fetchBible.ts", "src/scripts/download-bible.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/fetchBible.ts", "src/scripts/download-bible.js", "src/app/api/capitulo/route.js"],
   "exclude": ["node_modules"]
 }

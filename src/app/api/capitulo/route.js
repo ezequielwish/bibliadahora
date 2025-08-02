@@ -1,15 +1,13 @@
 import crypto from "crypto";
+import nvi from "@/../public/data/nvi.json";
 
-// Gera seed com base na hora atual
 function getHoraAtualComoSeed() {
   const now = new Date();
   return Math.floor(now.getTime() / (1000 * 60 * 60));
 }
 
 export async function GET() {
-  // Carrega o JSON diretamente via fetch (acesso a arquivos públicos)
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/data/nvi.json`);
-  const livros = await res.json();
+  const livros = nvi;
 
   const seed = getHoraAtualComoSeed();
   const hash = crypto.createHash("sha256").update(String(seed)).digest("hex");
