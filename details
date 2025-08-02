@@ -1,0 +1,51 @@
+📖 Projeto: Verso do Dia
+Uma página web que exibe um capítulo aleatório da Bíblia Cristã a cada hora. Cada capítulo é acompanhado por um resumo explicativo gerado por IA e uma imagem representativa baseada em palavras-chave do texto. O conteúdo pode ser compartilhado via WhatsApp.
+
+🎯 Objetivo
+Levar uma experiência bíblica inspiradora, automatizada e bonita, que muda a cada hora e funcione bem em dispositivos móveis.
+
+🧰 Tecnologias
+✅ Next.js + TypeScript
+
+✅ Renderização server-side
+
+✅ CSS puro (sem frameworks)
+
+✅ API da Bíblia (pública)
+
+✅ API da OpenAI (para resumos e keywords)
+
+✅ API de imagens (Unsplash ou Bing)
+
+✅ Deploy na Vercel
+
+📱 Funcionalidades (MVP)
+Página única com capítulo aleatório
+
+Resumo gerado por IA (OpenAI)
+
+Imagem ilustrativa automática
+
+Atualização de conteúdo a cada 1 hora
+
+Botão de compartilhamento via WhatsApp
+
+Layout responsivo (mobile-first)
+
+🔗 APIs e Links Úteis
+
+https://bible-api.com
+https://unsplash.com/documentation
+https://platform.openai.com/docs/overview
+
+🎯 Tarefas
+
+Criar estrutura inicial do projeto Next.js ✅
+Integrar API da Bíblia para buscar capítulo
+Criar função para resumo via OpenAI
+Gerar palavras-chave com base no texto
+Buscar imagem representativa com API de imagens
+Criar componente de visualização do capítulo
+Implementar botão de compartilhar via WhatsApp
+Adicionar layout responsivo com CSS puro
+Configurar revalidação de página a cada 1h (ISR)
