@@ -1,20 +1,32 @@
-import { sortearCapitulo } from "@/lib/biblia";
+"use client";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const { livro, capitulo, versiculos } = await sortearCapitulo();
+type Capitulo = {
+  livro: string;
+  capitulo: number;
+  versiculos: string[];
+};
+
+export default function Home() {
+  const [capitulo, setCapitulo] = useState<Capitulo | null>(null);
+
+  useEffect(() => {
+    fetch("/api/capitulo")
+      .then((res) => res.json())
+      .then(setCapitulo)
+      .catch(console.error);
+  }, []);
+
+  if (!capitulo) return <p>Carregando capítulo...</p>;
 
   return (
-    <main className="p-4 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">
-        {livro} {capitulo}
-      </h1>
-      <div className="space-y-2">
-        {versiculos.map((verso, i) => (
-          <p key={i}>
-            <strong>{i + 1}</strong> {verso}
-          </p>
+    <div>
+      <h1>{capitulo.livro} {capitulo.capitulo}</h1>
+      <ul>
+        {capitulo.versiculos.map((v, i) => (
+          <li key={i}>{v}</li>
         ))}
-      </div>
-    </main>
+      </ul>
+    </div>
   );
 }
