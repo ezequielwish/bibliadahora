@@ -15,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        <header></header>
+        <header>
+          <h1>Biblia da hora</h1>
+        </header>
         {children}
         <footer></footer>
       </body>

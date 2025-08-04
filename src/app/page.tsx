@@ -20,7 +20,7 @@ export default function Home() {
   if (!capitulo) return <p>Carregando capítulo...</p>;
 
   return (
-    <div>
+    <div className="text-container">
       <h1>{capitulo.livro} {capitulo.capitulo}</h1>
       <ul>
         {capitulo.versiculos.map((v, i) => (
