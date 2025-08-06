@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Header from './components/header'
 
 
 export const metadata: Metadata = {
@@ -15,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        <header>
-          <h1>Biblia da hora</h1>
-        </header>
+        <Header/>
         {children}
         <footer></footer>
       </body>
