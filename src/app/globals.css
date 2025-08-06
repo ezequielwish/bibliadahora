@@ -1,17 +1,17 @@
 :root {
   --background: #ededed;
   --foreground: #161616;
+  color: var(--foreground);
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #161616;
     --foreground: #ededed;
+    color: var(--background);
   }
-}
 
-* {
-  font-family:'Times New Roman', Times, serif;
 }
 
 html,
@@ -23,7 +23,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -45,6 +45,8 @@ a {
   width: 700px;
   max-width: 100%;
   border:solid 2px #3f3f3f17;
+  border-radius: 3px;
+  box-shadow: 0px 0px 20px #3f3f3f3b;
 }
 
 .text-container h1 {
@@ -52,15 +54,13 @@ a {
 }
 
 li {
-  list-style: decimal;
+  list-style-type: decimal;
+  list-style-position: inside;
   margin-bottom: 7px;
   font-size: 1.2rem;
 }
 
-footer {
-  height: 100px;
-  background-color: #00000083;
-}
+
 
 @media (prefers-color-scheme: dark) {
   html {

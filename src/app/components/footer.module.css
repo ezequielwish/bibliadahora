@@ -1,0 +1,19 @@
+.footer {
+  height: 100px;
+  background-color: #dfdfdf83;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background-color: #00000083;
+  }
+}
+
+
+.footer a:hover {
+    text-decoration: underline;
+}
