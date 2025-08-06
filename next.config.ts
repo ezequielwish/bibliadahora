@@ -14,12 +14,6 @@ const nextConfig = {
     ];
   },
   
-  // Configurações adicionais se necessário
-  experimental: {
-    // Permite usar fetch no servidor
-    serverComponentsExternalPackages: [],
-  },
-  
   // Para evitar problemas de CORS durante desenvolvimento
   async rewrites() {
     return [
