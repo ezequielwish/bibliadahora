@@ -16,28 +16,10 @@ Não depende de APIs externas — os dados vêm de um arquivo local JSON.
 
 ---
 
-## 📂 Estrutura do projeto
-
-```
-📦 biblia-da-hora
- ┣ 📂 app
- ┃ ┗ 📜 page.tsx          # Página principal
- ┣ 📂 lib
- ┃ ┗ 📜 biblia.ts         # Função de sorteio do capítulo
- ┣ 📂 public
- ┃ ┗ 📂 data
- ┃    ┗ 📜 nvi.json       # Texto bíblico completo (Nova Versão Internacional)
- ┣ 📜 package.json
- ┣ 📜 tsconfig.json
- ┣ 📜 README.md
-```
-
----
-
 ## 🔧 Como funciona
 
 1. O arquivo `nvi.json` contém todos os livros, capítulos e versículos da Bíblia (NVI).
-2. A função `sortearCapitulo()` lê o arquivo e usa uma **seed baseada na hora atual**.
+2. A rota `chapter` da API lê o arquivo e usa uma **seed baseada na hora atual**.
 3. Essa seed é transformada em um número pseudoaleatório usando **SHA-256**.
 4. O resultado é usado para selecionar um livro e um capítulo.
 5. Como a seed é baseada na hora, todos os usuários recebem **o mesmo capítulo** por 1 hora.
@@ -69,29 +51,13 @@ Não depende de APIs externas — os dados vêm de um arquivo local JSON.
 
 ---
 
-## 🔍 Testando capítulos sem esperar 1 hora
-
-Para simular horários diferentes e testar o sorteio:
-
-- Edite `getHoraAtualComoSeed()` no arquivo `biblia.ts` para usar uma hora fixa:
-  ```ts
-  const horaFalsa = new Date("2025-08-02T15:00:00");
-  ```
-- Ou defina uma variável de ambiente:
-  ```bash
-  FORCE_HOUR="2025-08-02T18:00:00" npm run dev
-  ```
-
----
-
 ## 📦 Deploy
 
-Este projeto foi desenvolvido para rodar facilmente na [Vercel](https://vercel.com/).  
-Basta criar um novo projeto e conectar ao repositório GitHub.
+Este projeto está hospedado na [Vercel](https://vercel.com/) e pode ser acessado através da URL: (https://bibliadahora.vercel.app/)
 
 ---
 
 ## 📜 Licença
 
-Este projeto está sob a licença **MIT**.  
+Este projeto está sob a licença **Apache**.  
 O texto bíblico da NVI foi retirado do repositório público de [thiagobodruk/biblia](https://github.com/thiagobodruk/biblia).
