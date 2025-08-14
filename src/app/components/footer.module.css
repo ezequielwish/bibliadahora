@@ -1,23 +1,23 @@
 .footer {
-  height: 100px;
-  background-color: #dfdfdf44;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    height: 100px;
+    background-color: #dfdfdf44;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (prefers-color-scheme: dark) {
-  .footer {
-    background-color: #00000044;
-  }
+    .footer {
+        background-color: #00000044;
+    }
 }
 
 .footer a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .footer a:hover {
