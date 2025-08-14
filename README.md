@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📖 Bíblia da Hora
 
-## Getting Started
+Um aplicativo web que exibe **um capítulo aleatório da Bíblia** que muda automaticamente **a cada hora**.  
+O sorteio é feito **no lado do servidor** para que todos os usuários vejam o mesmo capítulo simultaneamente.  
+Não depende de APIs externas — os dados vêm de um arquivo local JSON.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Tecnologias utilizadas
+
+- [Next.js 14+ (App Router)](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Node.js `fs` e `path`](https://nodejs.org/api/fs.html)
+- [Crypto (para geração de seed determinística)](https://nodejs.org/api/crypto.html)
+- HTML + CSS
+
+---
+
+## 📂 Estrutura do projeto
+
+```
+📦 biblia-da-hora
+ ┣ 📂 app
+ ┃ ┗ 📜 page.tsx          # Página principal
+ ┣ 📂 lib
+ ┃ ┗ 📜 biblia.ts         # Função de sorteio do capítulo
+ ┣ 📂 public
+ ┃ ┗ 📂 data
+ ┃    ┗ 📜 nvi.json       # Texto bíblico completo (Nova Versão Internacional)
+ ┣ 📜 package.json
+ ┣ 📜 tsconfig.json
+ ┣ 📜 README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Como funciona
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. O arquivo `nvi.json` contém todos os livros, capítulos e versículos da Bíblia (NVI).
+2. A função `sortearCapitulo()` lê o arquivo e usa uma **seed baseada na hora atual**.
+3. Essa seed é transformada em um número pseudoaleatório usando **SHA-256**.
+4. O resultado é usado para selecionar um livro e um capítulo.
+5. Como a seed é baseada na hora, todos os usuários recebem **o mesmo capítulo** por 1 hora.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Como rodar localmente
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clonar o repositório**
+   ```bash
+   git clone https://github.com/seu-usuario/biblia-da-hora.git
+   cd biblia-da-hora
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Instalar as dependências**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Rodar em modo desenvolvimento**
+   ```bash
+   npm run dev
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Abra no navegador:
+   ```
+   http://localhost:3000
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🔍 Testando capítulos sem esperar 1 hora
+
+Para simular horários diferentes e testar o sorteio:
+
+- Edite `getHoraAtualComoSeed()` no arquivo `biblia.ts` para usar uma hora fixa:
+  ```ts
+  const horaFalsa = new Date("2025-08-02T15:00:00");
+  ```
+- Ou defina uma variável de ambiente:
+  ```bash
+  FORCE_HOUR="2025-08-02T18:00:00" npm run dev
+  ```
+
+---
+
+## 📦 Deploy
+
+Este projeto foi desenvolvido para rodar facilmente na [Vercel](https://vercel.com/).  
+Basta criar um novo projeto e conectar ao repositório GitHub.
+
+---
+
+## 📜 Licença
+
+Este projeto está sob a licença **MIT**.  
+O texto bíblico da NVI foi retirado do repositório público de [thiagobodruk/biblia](https://github.com/thiagobodruk/biblia).
