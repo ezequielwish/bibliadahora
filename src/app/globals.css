@@ -60,8 +60,6 @@ li {
   font-size: 1.2rem;
 }
 
-
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
