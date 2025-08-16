@@ -6,8 +6,15 @@ export async function POST(req) {
       throw new Error("Variável HF_API_KEY não configurada na Vercel");
     }
 
-    const textToSummarize = `${book} ${chapter}: ${verses.join(" ")}`;
+    // Usa no máximo 20 versículos ou até 2000 caracteres
+    const limitedVerses = verses.slice(0, 20);
+    let textToSummarize = `${book} ${chapter}: ${limitedVerses.join(" ")}`;
 
+    if (textToSummarize.length > 2000) {
+      textToSummarize = textToSummarize.substring(0, 2000) + "...";
+    }
+
+    // Chamada para a API do Hugging Face
     const response = await fetch(
       "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
       {
