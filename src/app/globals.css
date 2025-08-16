@@ -1,67 +1,87 @@
 :root {
-  --background: #ededed;
-  --foreground: #161616;
-  color: var(--foreground);
+    --background: #ededed;
+    --foreground: #161616;
+    color: var(--foreground);
 }
 
-
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #161616;
-    --foreground: #ededed;
-    color: var(--background);
-  }
-
+    :root {
+        --background: #161616;
+        --foreground: #ededed;
+        color: var(--background);
+    }
 }
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    color: var(--foreground);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 .text-container {
-  padding: 20px 30px;
-  margin: 20px auto;
-  width: 700px;
-  max-width: 100%;
-  border:solid 2px #3f3f3f17;
-  border-radius: 3px;
-  box-shadow: 0px 0px 20px #3f3f3f3b;
+    padding: 20px 30px;
+    margin: 20px auto;
+    width: 700px;
+    max-width: 100%;
+    border: solid 2px #3f3f3f17;
+    border-radius: 3px;
+    box-shadow: 0px 0px 20px #3f3f3f3b;
 }
 
-.text-container h1 {
-  margin-bottom: 20px;
+.text-container h2 {
+    margin-bottom: 20px;
 }
 
 li {
-  list-style-type: decimal;
-  list-style-position: inside;
-  margin-bottom: 7px;
-  font-size: 1.2rem;
+    list-style-type: decimal;
+    list-style-position: inside;
+    margin-bottom: 7px;
+}
+
+p,
+li {
+    font-size: 1.2rem;
+}
+
+p {
+    border-left: 3px solid aqua;
+    padding-left: 16px;
+    border-radius: 6px;
+}
+
+.image {
+    border-radius: 6px;
+    margin: 12px 0;
+    height: 500px;
+    width: 100%;
+    background-image: url("/assets/image.png");
+    background-size: contain;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+    html {
+        color-scheme: dark;
+    }
 }
