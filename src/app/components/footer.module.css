@@ -1,6 +1,7 @@
 .footer {
     height: 100px;
-    background-color: var(--footer-bg);
+    background-color: var(--background);
+    color: #ededed;
     text-align: center;
     display: flex;
     align-items: center;
