@@ -1,16 +1,10 @@
 .footer {
     height: 100px;
-    background-color: #dfdfdf44;
+    background-color: var(--footer-bg);
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-@media (prefers-color-scheme: dark) {
-    .footer {
-        background-color: #00000044;
-    }
 }
 
 .footer a {
@@ -23,3 +17,4 @@
 .footer a:hover {
     text-decoration: underline;
 }
+

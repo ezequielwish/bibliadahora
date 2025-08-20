@@ -1,15 +1,27 @@
-:root {
+/* ==========================
+   Variáveis de Tema
+========================== */
+body.light {
     --background: #ededed;
     --foreground: #161616;
-    color: var(--foreground);
+    --footer-bg: #dfdfdf44;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #161616;
-        --foreground: #ededed;
-        color: var(--background);
-    }
+body.dark {
+    --background: #161616;
+    --foreground: #ededed;
+    --footer-bg: #00000044;
+}
+
+/* ==========================
+   Reset + Base
+========================== */
+* {
+    box-sizing: border-box;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 html,
@@ -25,19 +37,14 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-    box-sizing: border-box;
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
-        sans-serif;
-    padding: 0;
-    margin: 0;
-}
-
 a {
     color: inherit;
     text-decoration: none;
 }
 
+/* ==========================
+   Componentes
+========================== */
 .text-container {
     padding: 20px 30px;
     margin: 5px 0 10px 0;
@@ -63,8 +70,8 @@ a {
 .summary-container {
     width: 700px;
     max-width: 100%;
+    padding: 20px;
 }
-
 
 li {
     list-style-type: decimal;
@@ -85,11 +92,16 @@ p {
 
 .image {
     border-radius: 6px;
-    margin: 12px 0;
     height: 650px;
     width: 650px;
-    max-width: 100vw;
+    max-width: 90vw;
     margin: 0 auto;
+}
+
+.image-description {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888888;
 }
 
 main {
@@ -99,10 +111,4 @@ main {
     align-items: center;
     min-height: 95vh;
     gap: 5px;
-}
-
-@media (prefers-color-scheme: dark) {
-    html {
-        color-scheme: dark;
-    }
 }

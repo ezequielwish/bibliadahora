@@ -54,26 +54,35 @@ export default function Home() {
 
     return (
         <>
-        <div className="text-container">
-            <h2>
-                {chapterData.book} {chapterData.chapter}
-            </h2>
-            <ul>
-                {chapterData.verses.map((verse, index) => (
-                    <li key={index}>{verse}</li>
-                ))}
-            </ul>
-        </div>
-        <div className="text-container summary-container">
-            <img className="image" src="/assets/image.png" alt="Imagem ilustrativa" />
-            {summary && (
-                // Mostra o resumo do capítulo
-                <>
-                    <h2>Resumo</h2>
-                    <p>{summary}</p>
-                </>
-            )}
-        </div>
+            <div className="text-container">
+                <h2>
+                    {chapterData.book} {chapterData.chapter}
+                </h2>
+                <ul>
+                    {chapterData.verses.map((verse, index) => (
+                        <li key={index}>{verse}</li>
+                    ))}
+                </ul>
+            </div>
+            <div className="text-container summary-container">
+                <figure>
+                    <img
+                        className="image"
+                        src="/assets/image.png"
+                        alt="Imagem ilustrativa"
+                    />
+                    <figcaption className="image-description">
+                        Imagem representativa do capítulo
+                    </figcaption>
+                </figure>
+                {summary && (
+                    // Mostra o resumo do capítulo
+                    <>
+                        <h2>Resumo</h2>
+                        <p>{summary}</p>
+                    </>
+                )}
+            </div>
         </>
     );
 }
