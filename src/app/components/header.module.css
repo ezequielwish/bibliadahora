@@ -15,7 +15,9 @@
     align-items: center;
     gap: 12px;
     height: 100%;
+    transition: all 0.3s ease;
 }
+
 
 .logoContainer h1 {
     font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -28,16 +30,23 @@
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    transition: all 0.3s ease;
+}
+
+.logoContainer:hover {
+    cursor: default;
+    transform: scale(1.05)
+}
+
+.logoContainer * {
+   user-select: none;
 }
 
 .logo {
     height: 100%;
-}
-
-.header h1:hover {
-    cursor: default;
-    transform: scale(1.05)
+    -webkit-user-drag: none;
+    -khtml-user-drag: none; 
+    -moz-user-drag: none; /* Firefox */
+    -o-user-drag: none; 
 }
 
 .themeButton {
