@@ -4,7 +4,7 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import styles from "./header.module.css";
 
 export default function Header() {
-    const [theme, setTheme] = useState("light");
+    const [theme, setTheme] = useState("dark");
 
     useEffect(() => {
         document.body.classList.remove("light", "dark");

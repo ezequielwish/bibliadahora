@@ -1,16 +1,21 @@
 /* ==========================
    Variáveis de Tema
 ========================== */
+
+/* Tema padrão (dark) */
+body {
+    --background: #161616;
+    --foreground: #ededed;
+    --footer-bg: #00000044;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+/* Tema claro */
 body.light {
     --background: #ededed;
     --foreground: #161616;
     --footer-bg: #dfdfdf44;
-}
-
-body.dark {
-    --background: #161616;
-    --foreground: #ededed;
-    --footer-bg: #00000044;
 }
 
 /* ==========================
@@ -28,11 +33,10 @@ html,
 body {
     max-width: 100vw;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
-    color: var(--foreground);
-    background: var(--background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -50,9 +54,9 @@ a {
     margin: 5px 0 10px 0;
     width: 700px;
     max-width: 100vw;
-    border: solid 2px #3f3f3f17;
-    border-radius: 3px;
-    box-shadow: 0px 0px 20px #3f3f3f3b;
+    border-radius: 10px;
+    border: 1px solid #3f3f3f17;
+    box-shadow: 6px 6px 20px #3f3f3f17;
 }
 
 .text-container h2 {
@@ -110,5 +114,6 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 95vh;
-    gap: 5px;
+    gap: 10px;
+    background-image: url("/assets/background.png");
 }
