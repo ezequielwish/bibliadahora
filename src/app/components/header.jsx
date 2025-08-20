@@ -17,7 +17,10 @@ export default function Header() {
 
     return (
         <header className={styles.header}>
-            <h1>Biblia da hora</h1>
+            <div className={styles.logoContainer}>
+                <img className={styles.logo} src="/assets/logo.png" alt="logo" />
+                <h1>Biblia da hora</h1>
+            </div>
             <button className={styles.themeButton} onClick={toggleTheme}>
                 {theme === "light" ? <FiMoon /> : <FiSun />}
             </button>
