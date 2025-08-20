@@ -6,16 +6,17 @@
 body {
     --background: #161616;
     --foreground: #ededed;
-    --footer-bg: #00000044;
-    background-color: var(--background);
-    color: var(--foreground);
+    --footer-bg: #000000;
+    background-color: #0f171a;
+    
 }
 
 /* Tema claro */
 body.light {
     --background: #ededed;
     --foreground: #161616;
-    --footer-bg: #dfdfdf44;
+    --footer-bg: #ecf1f7;
+    background-color: #d6dee6;
 }
 
 /* ==========================
@@ -27,6 +28,7 @@ body.light {
         sans-serif;
     padding: 0;
     margin: 0;
+    color: var(--foreground);
 }
 
 html,
@@ -34,9 +36,6 @@ body {
     max-width: 100vw;
     overflow-x: hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -57,6 +56,7 @@ a {
     border-radius: 10px;
     border: 1px solid #3f3f3f17;
     box-shadow: 6px 6px 20px #3f3f3f17;
+    background-color: var(--background);
 }
 
 .text-container h2 {
@@ -115,5 +115,4 @@ main {
     align-items: center;
     min-height: 95vh;
     gap: 10px;
-    background-image: url("/assets/background.png");
 }
