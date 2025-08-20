@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import livro from "@/assets/livro.jpg";
 
 // Tipo para os dados do capítulo
 type Chapter = {
@@ -48,12 +47,13 @@ export default function Home() {
 
     if (!chapterData)
         return (
-            <div className="text-container">
-                <p>Loading chapter...</p>
+            <div className="loading-container">
+                <h2>...</h2>
             </div>
         );
 
     return (
+        <>
         <div className="text-container">
             <h2>
                 {chapterData.book} {chapterData.chapter}
@@ -63,14 +63,17 @@ export default function Home() {
                     <li key={index}>{verse}</li>
                 ))}
             </ul>
-            <div className="image"></div>
-            {/* Mostra o resumo se disponível */}
+        </div>
+        <div className="text-container summary-container">
+            <img className="image" src="/assets/image.png" alt="Imagem ilustrativa" />
             {summary && (
+                // Mostra o resumo do capítulo
                 <>
                     <h2>Resumo</h2>
                     <p>{summary}</p>
                 </>
             )}
         </div>
+        </>
     );
 }

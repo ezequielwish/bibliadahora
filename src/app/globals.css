@@ -40,9 +40,9 @@ a {
 
 .text-container {
     padding: 20px 30px;
-    margin: 10px auto;
+    margin: 5px 0 10px 0;
     width: 700px;
-    max-width: 100%;
+    max-width: 100vw;
     border: solid 2px #3f3f3f17;
     border-radius: 3px;
     box-shadow: 0px 0px 20px #3f3f3f3b;
@@ -51,6 +51,20 @@ a {
 .text-container h2 {
     margin-bottom: 20px;
 }
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100%;
+}
+
+.summary-container {
+    width: 700px;
+    max-width: 100%;
+}
+
 
 li {
     list-style-type: decimal;
@@ -72,12 +86,19 @@ p {
 .image {
     border-radius: 6px;
     margin: 12px 0;
-    height: 500px;
-    width: 100%;
-    background-image: url("/assets/image.png");
-    background-size: contain;
-    background-position: center;
-    background-attachment: fixed;
+    height: 650px;
+    width: 650px;
+    max-width: 100vw;
+    margin: 0 auto;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 95vh;
+    gap: 5px;
 }
 
 @media (prefers-color-scheme: dark) {
