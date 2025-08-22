@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import Summary from "./components/summaryContainer.jsx";
+import LoadingSpinner from "./components/LoadingSpinner.jsx";
 
 // Tipo para os dados do capítulo
 type Chapter = {
@@ -8,49 +10,27 @@ type Chapter = {
     verses: string[];
 };
 
-// Tipo para os dados do resumo
-type SummaryResponse = {
-    summary: string;
-};
-
 export default function Home() {
+    const [loading, setLoading] = useState(true);
     const [chapterData, setChapterData] = useState<Chapter | null>(null);
-    const [summary, setSummary] = useState<string>("");
 
     useEffect(() => {
+
+        // Inicia o estado de loading
+        setLoading(true);
+
         // Busca o capítulo
         fetch("/api/chapter")
             .then((res) => res.json())
             .then((data) => {
                 setChapterData(data);
-
-                // Quando o capítulo carregar, pede o resumo
-                fetch("/api/summary", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        book: data.book,
-                        chapter: data.chapter,
-                        verses: data.verses,
-                    }),
-                })
-                    .then((res) => res.json())
-                    .then((resumoData: SummaryResponse) => {
-                        setSummary(
-                            resumoData.summary || "Resumo não disponível"
-                        );
-                    })
-                    .catch(console.error);
+                setLoading(false);
             })
             .catch(console.error);
     }, []);
 
-    if (!chapterData)
-        return (
-            <div className="loading-container">
-                <h2>...</h2>
-            </div>
-        );
+    if (!chapterData || loading)
+        return <LoadingSpinner text="Carregando Capítulo..." />;
 
     return (
         <>
@@ -64,23 +44,13 @@ export default function Home() {
                     ))}
                 </ul>
             </div>
-            <div className="text-container summary-container">
-                <figure>
-                    <img
-                        className="image"
-                        src="/assets/image.png"
-                        alt="Imagem ilustrativa"
+            <div className="text-container">
+                {chapterData && (
+                    <Summary
+                        book={chapterData.book}
+                        chapter={chapterData.chapter}
+                        verses={chapterData.verses}
                     />
-                    <figcaption className="image-description">
-                        Imagem representativa do capítulo
-                    </figcaption>
-                </figure>
-                {summary && (
-                    // Mostra o resumo do capítulo
-                    <>
-                        <h2>Resumo</h2>
-                        <p>{summary}</p>
-                    </>
                 )}
             </div>
         </>
