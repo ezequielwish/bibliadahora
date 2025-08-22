@@ -23,10 +23,10 @@
     font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 600;
     font-size: 1.6rem;
-    color: #ffffff;
+    color: #fff;
     letter-spacing: 1px;
     text-transform: uppercase;
-    background: linear-gradient(90deg, #ffffff, #9eefff);
+    background: linear-gradient(90deg, #fff, #9eefff);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -60,10 +60,10 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    color: #ffffff;
+    color: #ededed;
 }
 
 .themeButton:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #ffffff4d;
     transform: scale(1.1);
 }
