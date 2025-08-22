@@ -5,7 +5,7 @@ export async function POST(req) {
         if (!process.env.HF_API_KEY) {
             throw new Error("Variável HF_API_KEY não configurada na Vercel");
         }
-
+        
         // Usa no máximo 20 versículos ou até 2000 caracteres
         const limitedVerses = verses.slice(0, 20);
         let textToSummarize = `${book} ${chapter}: ${limitedVerses.join(" ")}`;
