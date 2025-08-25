@@ -20,6 +20,12 @@ export async function GET() {
     const chapterIndex = seedInt % book.chapters.length;
     const verses = book.chapters[chapterIndex];
 
+    // Se o primeiro caractere do book.name for um numero, adiciona "º"
+    // Exemplo: 1 Samuel -> 1º Samuel 
+    if (!isNaN(book.name.charAt(0))) {
+    book.name = book.name.charAt(0) + "º " + book.name.substring(1).trim();
+}
+
     // Retorna os dados em formato JSON
     return Response.json({
         book: book.name,
