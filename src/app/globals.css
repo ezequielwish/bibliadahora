@@ -64,7 +64,7 @@ a {
 }
 
 .text-container h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 20px;
 }
 
@@ -97,12 +97,11 @@ li {
     font-weight: bold;
     color: #23b5d3;
     width: 5%;
-    min-width: 20px;
+    min-width: 25px;
 }
 
 .verse {
     flex: 1;
-    text-align: justify;
     text-justify: inter-word; 
     font-size: 1.1rem;
     font-weight: 400;
