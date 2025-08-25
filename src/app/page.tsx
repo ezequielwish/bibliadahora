@@ -15,7 +15,6 @@ export default function Home() {
     const [chapterData, setChapterData] = useState<Chapter | null>(null);
 
     useEffect(() => {
-
         // Inicia o estado de loading
         setLoading(true);
 
@@ -34,17 +33,20 @@ export default function Home() {
 
     return (
         <>
-            <div className="text-container">
-                <h2>
-                    {chapterData.book} {chapterData.chapter}
-                </h2>
+            <section className="text-container">
+                <div>
+                    <h2>{chapterData.book}<span className="chapter">|capítulo: {chapterData.chapter}</span></h2>
+                </div>
                 <ul>
                     {chapterData.verses.map((verse, index) => (
-                        <li key={index}>{verse}</li>
+                        <li key={index}>
+                            <span className="verse-number">{index + 1}</span>
+                            <span className="verse">{verse}</span>
+                        </li>
                     ))}
                 </ul>
-            </div>
-            <div className="text-container">
+            </section>
+            <section className="text-container">
                 {chapterData && (
                     <Summary
                         book={chapterData.book}
@@ -52,7 +54,7 @@ export default function Home() {
                         verses={chapterData.verses}
                     />
                 )}
-            </div>
+            </section>
         </>
     );
 }

@@ -23,7 +23,7 @@ export async function POST(req) {
                     Authorization: `Bearer ${process.env.HF_API_KEY}`,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ inputs: textToSummarize }),
+                body: JSON.stringify({ inputs: `Resuma detalhadamente o seguinte texto: ${textToSummarize}` })
             }
         );
 
