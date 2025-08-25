@@ -65,12 +65,18 @@ a {
 
 .text-container h2 {
     font-size: 2.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .chapter {
     color: #888;
     font-weight: 300;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 li {
@@ -90,15 +96,17 @@ li {
     justify-content: center;
     font-weight: bold;
     color: #23b5d3;
-    max-width: 10px;
-    max-width: 30px;
-    width: 10%;
+    width: 5%;
     text-align: center;
 }
 
 .verse {
     flex: 1;
     text-align: justify;
+    text-justify: inter-word; 
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
 }
 
 main {
