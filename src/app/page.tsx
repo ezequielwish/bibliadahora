@@ -35,7 +35,7 @@ export default function Home() {
         <>
             <section className="text-container">
                 <div>
-                    <h2>{chapterData.book}<span className="chapter">|capítulo: {chapterData.chapter}</span></h2>
+                    <h2>{chapterData.book}<span className="chapter"> | capítulo: {chapterData.chapter}</span></h2>
                 </div>
                 <ul>
                     {chapterData.verses.map((verse, index) => (
