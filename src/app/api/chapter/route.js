@@ -1,10 +1,12 @@
 import crypto from "crypto";
 import bibleData from "@/../public/data/nvi.json"; // Importa o JSON da Bíblia
 
-// Gera uma seed baseada na hora atual (muda a cada hora)
+// Gera uma seed baseada na hora e dia atual (muda a cada hora)
 function getCurrentHourSeed() {
     const now = new Date();
-    return Math.floor(now.getTime() / (1000 * 60 * 60)); // Seed por hora
+    const dateStr = now.toISOString().split("T")[0];
+    const hour = now.getHours();
+    return `${dateStr}-${hour}`;
 }
 
 export async function GET() {
@@ -12,7 +14,7 @@ export async function GET() {
 
     // Gera um número a partir do hash da seed
     const seed = getCurrentHourSeed();
-    const hash = crypto.createHash("sha256").update(String(seed)).digest("hex");
+    const hash = crypto.createHash("sha256").update(seed).digest("hex");
     const seedInt = parseInt(hash.substring(0, 8), 16);
 
     // Escolhe o livro e o capítulo
@@ -33,9 +35,10 @@ export async function GET() {
 
     // Retorna os dados em formato JSON
     return Response.json({
+        seed: seed,
         book: book.name,
         chapter: chapterIndex + 1,
         verses,
-        chapterId, // <- novo
+        chapterId,
     });
 }

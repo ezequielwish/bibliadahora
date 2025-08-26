@@ -4,6 +4,7 @@ import Summary from "./components/summaryContainer.jsx";
 import LoadingSpinner from "./components/LoadingSpinner.jsx";
 
 type Chapter = {
+    seed: string;
     book: string;
     chapter: number;
     verses: string[];
@@ -68,6 +69,7 @@ export default function Home() {
                         </li>
                     ))}
                 </ul>
+                <p className="seed">ID: {chapterData.seed}</p>
             </section>
 
             <section className="text-container fade-in">

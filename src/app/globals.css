@@ -45,8 +45,6 @@ body {
     animation: fadeIn 0.6s ease-in-out forwards;
 }
 
-
-
 a {
     color: inherit;
     text-decoration: none;
@@ -73,7 +71,7 @@ a {
 
 .text-container h2 {
     font-size: 2rem;
-    margin-bottom: 20px;
+    margin: 15px 0;
 }
 
 .chapter {
@@ -108,12 +106,19 @@ li {
     min-width: 25px;
 }
 
-.verse, p{
+.verse, p {
     flex: 1;
     text-justify: inter-word; 
     font-size: 1.1rem;
     font-weight: 400;
     letter-spacing: 0.5px;
+}
+
+.seed {
+    display: block;
+    text-align: end;
+    color: #888;
+    font-size: 0.8rem;
 }
 
 main {
