@@ -1,45 +1,81 @@
-export async function POST(req) {
-    try {
-        const { book, chapter, verses } = await req.json();
+import fs from "fs";
+import path from "path";
+import { GoogleGenAI } from "@google/genai";
 
-        if (!process.env.HF_API_KEY) {
-            throw new Error("Variável HF_API_KEY não configurada na Vercel");
-        }
-        
-        // Usa no máximo 20 versículos ou até 2000 caracteres
-        const limitedVerses = verses.slice(0, 20);
-        let textToSummarize = `${book} ${chapter}: ${limitedVerses.join(" ")}`;
+const dbPath = path.join(process.cwd(), "summary.json");
+const MAX_CHARS_PER_CHUNK = 2000; // Ajustável
+const MIN_WORDS = 50;
+const MAX_WORDS = 100;
 
-        if (textToSummarize.length > 2000) {
-            textToSummarize = textToSummarize.substring(0, 2000) + "...";
-        }
+function saveResumos(data) {
+    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), "utf-8");
+}
 
-        // Chamada para a API do Hugging Face
-        const response = await fetch(
-            "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
-            {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${process.env.HF_API_KEY}`,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ inputs: `Resuma detalhadamente o seguinte texto: ${textToSummarize}` })
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(`Erro na API do Hugging Face: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        return Response.json({
-            book,
-            chapter,
-            summary: data[0]?.summary_text || "Resumo não disponível",
-        });
-    } catch (error) {
-        console.error("Erro ao gerar resumo:", error);
-        return Response.json({ error: error.message }, { status: 500 });
+// Função para dividir texto em chunks
+function chunkText(text, maxChars) {
+    const chunks = [];
+    let start = 0;
+    while (start < text.length) {
+        chunks.push(text.substring(start, start + maxChars));
+        start += maxChars;
     }
+    return chunks;
+}
+
+export async function POST(req) {
+  try {
+    const { book, chapter, verses } = await req.json();
+    const key = `${book}_${chapter}`;
+
+    // Limpa o arquivo toda vez que gera um novo capítulo
+    const resumos = {}; // limpa o JSON
+    saveResumos(resumos);
+
+    const fullText = `${book} ${chapter}: ${verses.join(' ')}`;
+    const chunks = chunkText(fullText, MAX_CHARS_PER_CHUNK);
+    const client = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
+
+    const partialSummaries = [];
+    for (const chunk of chunks) {
+      const chunkPrompt = `
+Resuma o seguinte trecho da Bíblia em no mínimo ${MIN_WORDS} e no máximo ${MAX_WORDS} palavras.
+Mantenha o contexto e seja conciso e claro.
+Não adicione títulos ou comentários.
+
+Texto: ${chunk}
+`;
+      const response = await client.models.generateContent({
+        model: 'gemini-2.0-flash',
+        contents: [chunkPrompt],
+      });
+      partialSummaries.push(response?.text?.trim() || "");
+    }
+
+    let finalSummaryText = partialSummaries.join(' ');
+
+    if (partialSummaries.length > 1) {
+      const finalSummaryPrompt = `
+Com base nos seguintes resumos parciais, gere um resumo final conciso e coerente
+em no mínimo ${MIN_WORDS} e no máximo ${MAX_WORDS} palavras.
+Mantenha o contexto da história e seja conciso. Não adicione títulos ou comentários.
+
+${finalSummaryText}
+`;
+      const finalResponse = await client.models.generateContent({
+        model: 'gemini-2.0-flash',
+        contents: [finalSummaryPrompt],
+      });
+      finalSummaryText = finalResponse?.text?.trim() || finalSummaryText;
+    }
+
+    // --- Salva o novo resumo ---
+    resumos[key] = finalSummaryText;
+    saveResumos(resumos);
+
+    return new Response(JSON.stringify({ book, chapter, summary: finalSummaryText }), { status: 200 });
+
+  } catch (error) {
+    console.error("Erro ao gerar resumo:", error);
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  }
 }

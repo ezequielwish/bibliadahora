@@ -11,6 +11,8 @@
     "setup": "npm run download-bible && npm run dev"
   },
   "dependencies": {
+    "@google/genai": "^1.15.0",
+    "@google/generative-ai": "^0.24.1",
     "next": "15.4.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
