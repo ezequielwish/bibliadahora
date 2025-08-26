@@ -4,12 +4,7 @@ li {
     margin-bottom: 7px;
 }
 
-p,
-li {
-    font-size: 1.2rem;
-}
-
-p {
+.summary {
     border-left: 3px solid #23b5d3;
     padding-left: 16px;
     border-radius: 6px;

@@ -65,7 +65,7 @@ export default function Summary({ book, chapter, verses, chapterId }) {
             {summary && (
                 <>
                     <h2>Resumo</h2>
-                    <p>{summary}</p>
+                    <p className="summary">{summary}</p>
                 </>
             )}
         </>
