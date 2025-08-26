@@ -1,25 +1,21 @@
-import fs from "fs";
-import path from "path";
 import { GoogleGenAI } from "@google/genai";
 
-const dbPath = path.join(process.cwd(), "summary.json");
 const MAX_CHARS_PER_CHUNK = 2000; // Ajustável
 const MIN_WORDS = 50;
 const MAX_WORDS = 100;
 
-function saveResumos(data) {
-    fs.writeFileSync(dbPath, JSON.stringify(data, null, 2), "utf-8");
-}
+// Cache em memória
+let summaryCache = {};
 
 // Função para dividir texto em chunks
 function chunkText(text, maxChars) {
-    const chunks = [];
-    let start = 0;
-    while (start < text.length) {
-        chunks.push(text.substring(start, start + maxChars));
-        start += maxChars;
-    }
-    return chunks;
+  const chunks = [];
+  let start = 0;
+  while (start < text.length) {
+    chunks.push(text.substring(start, start + maxChars));
+    start += maxChars;
+  }
+  return chunks;
 }
 
 export async function POST(req) {
@@ -27,9 +23,10 @@ export async function POST(req) {
     const { book, chapter, verses } = await req.json();
     const key = `${book}_${chapter}`;
 
-    // Limpa o arquivo toda vez que gera um novo capítulo
-    const resumos = {}; // limpa o JSON
-    saveResumos(resumos);
+    // Retorna imediatamente se já existe no cache em memória
+    if (summaryCache[key]) {
+      return new Response(JSON.stringify({ book, chapter, summary: summaryCache[key] }), { status: 200 });
+    }
 
     const fullText = `${book} ${chapter}: ${verses.join(' ')}`;
     const chunks = chunkText(fullText, MAX_CHARS_PER_CHUNK);
@@ -68,9 +65,8 @@ ${finalSummaryText}
       finalSummaryText = finalResponse?.text?.trim() || finalSummaryText;
     }
 
-    // --- Salva o novo resumo ---
-    resumos[key] = finalSummaryText;
-    saveResumos(resumos);
+    // Salva no cache em memória
+    summaryCache[key] = finalSummaryText;
 
     return new Response(JSON.stringify({ book, chapter, summary: finalSummaryText }), { status: 200 });
 
