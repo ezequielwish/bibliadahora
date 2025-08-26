@@ -1,10 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 
-const MAX_CHARS_PER_CHUNK = 2000; // Ajustável
+const MAX_CHARS_PER_CHUNK = 2000;
 const MIN_WORDS = 50;
 const MAX_WORDS = 100;
 
-// Cache em memória
+// Cache em memória do servidor
 let summaryCache = {};
 
 // Função para dividir texto em chunks
@@ -21,11 +21,16 @@ function chunkText(text, maxChars) {
 export async function POST(req) {
   try {
     const { book, chapter, verses } = await req.json();
-    const key = `${book}_${chapter}`;
+    const chapterId = `${book}_${chapter}`;
 
-    // Retorna imediatamente se já existe no cache em memória
-    if (summaryCache[key]) {
-      return new Response(JSON.stringify({ book, chapter, summary: summaryCache[key] }), { status: 200 });
+    // Retorna do cache se já existe
+    if (summaryCache[chapterId]) {
+      return new Response(JSON.stringify({
+        book,
+        chapter,
+        summary: summaryCache[chapterId],
+        chapterId
+      }), { status: 200 });
     }
 
     const fullText = `${book} ${chapter}: ${verses.join(' ')}`;
@@ -33,8 +38,9 @@ export async function POST(req) {
     const client = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY });
 
     const partialSummaries = [];
+
     for (const chunk of chunks) {
-      const chunkPrompt = `
+      const prompt = `
 Resuma o seguinte trecho da Bíblia em no mínimo ${MIN_WORDS} e no máximo ${MAX_WORDS} palavras.
 Mantenha o contexto e seja conciso e claro.
 Não adicione títulos ou comentários.
@@ -43,32 +49,38 @@ Texto: ${chunk}
 `;
       const response = await client.models.generateContent({
         model: 'gemini-2.0-flash',
-        contents: [chunkPrompt],
+        contents: [prompt],
       });
       partialSummaries.push(response?.text?.trim() || "");
     }
 
-    let finalSummaryText = partialSummaries.join(' ');
+    let finalSummary = partialSummaries.join(' ');
 
+    // Se houver múltiplos chunks, gera resumo final coerente
     if (partialSummaries.length > 1) {
-      const finalSummaryPrompt = `
+      const finalPrompt = `
 Com base nos seguintes resumos parciais, gere um resumo final conciso e coerente
 em no mínimo ${MIN_WORDS} e no máximo ${MAX_WORDS} palavras.
 Mantenha o contexto da história e seja conciso. Não adicione títulos ou comentários.
 
-${finalSummaryText}
+${finalSummary}
 `;
       const finalResponse = await client.models.generateContent({
         model: 'gemini-2.0-flash',
-        contents: [finalSummaryPrompt],
+        contents: [finalPrompt],
       });
-      finalSummaryText = finalResponse?.text?.trim() || finalSummaryText;
+      finalSummary = finalResponse?.text?.trim() || finalSummary;
     }
 
-    // Salva no cache em memória
-    summaryCache[key] = finalSummaryText;
+    // Salva no cache do servidor
+    summaryCache[chapterId] = finalSummary;
 
-    return new Response(JSON.stringify({ book, chapter, summary: finalSummaryText }), { status: 200 });
+    return new Response(JSON.stringify({
+      book,
+      chapter,
+      summary: finalSummary,
+      chapterId
+    }), { status: 200 });
 
   } catch (error) {
     console.error("Erro ao gerar resumo:", error);

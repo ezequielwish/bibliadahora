@@ -15,21 +15,27 @@ export async function GET() {
     const hash = crypto.createHash("sha256").update(String(seed)).digest("hex");
     const seedInt = parseInt(hash.substring(0, 8), 16);
 
-    // Usa a seed para escolher um livro e um capítulo
+    // Escolhe o livro e o capítulo
     const book = books[seedInt % books.length];
     const chapterIndex = seedInt % book.chapters.length;
     const verses = book.chapters[chapterIndex];
 
-    // Se o primeiro caractere do book.name for um numero, adiciona "º"
-    // Exemplo: 1 Samuel -> 1º Samuel 
-    if (!isNaN(book.name.charAt(0))) {
-    book.name = book.name.charAt(0) + "º " + book.name.substring(1).trim();
-}
+    // Se o primeiro caractere do book.name for um número, adiciona "º"
+    if (!isNaN(book.name.charAt(0)) && !book.name.includes("º")) {
+        book.name = book.name.charAt(0) + "º " + book.name.substring(1).trim();
+    }
+
+    // Cria um chapterId baseado na seed (muda a cada hora)
+    const chapterId = `${book.name.replace(
+        /\s+/g,
+        "_"
+    )}_${chapterIndex}_${seed}`;
 
     // Retorna os dados em formato JSON
     return Response.json({
         book: book.name,
         chapter: chapterIndex + 1,
         verses,
+        chapterId, // <- novo
     });
 }

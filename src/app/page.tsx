@@ -8,6 +8,7 @@ type Chapter = {
     book: string;
     chapter: number;
     verses: string[];
+    chapterId: string; // adicionado
 };
 
 export default function Home() {
@@ -15,10 +16,8 @@ export default function Home() {
     const [chapterData, setChapterData] = useState<Chapter | null>(null);
 
     useEffect(() => {
-        // Inicia o estado de loading
         setLoading(true);
 
-        // Busca o capítulo
         fetch("/api/chapter")
             .then((res) => res.json())
             .then((data) => {
@@ -35,7 +34,13 @@ export default function Home() {
         <>
             <section className="text-container">
                 <div>
-                    <h2>{chapterData.book}<span className="chapter"> | capítulo {chapterData.chapter}</span></h2>
+                    <h2>
+                        {chapterData.book}
+                        <span className="chapter">
+                            {" "}
+                            | capítulo: {chapterData.chapter}
+                        </span>
+                    </h2>
                 </div>
                 <ul>
                     {chapterData.verses.map((verse, index) => (
@@ -52,6 +57,7 @@ export default function Home() {
                         book={chapterData.book}
                         chapter={chapterData.chapter}
                         verses={chapterData.verses}
+                        chapterId={chapterData.chapterId} // passa para o Summary
                     />
                 )}
             </section>
