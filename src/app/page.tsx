@@ -3,12 +3,11 @@ import { useEffect, useState } from "react";
 import Summary from "./components/summaryContainer.jsx";
 import LoadingSpinner from "./components/LoadingSpinner.jsx";
 
-// Tipo para os dados do capítulo
 type Chapter = {
     book: string;
     chapter: number;
     verses: string[];
-    chapterId: string; // adicionado
+    chapterId: string;
 };
 
 export default function Home() {
@@ -16,23 +15,42 @@ export default function Home() {
     const [chapterData, setChapterData] = useState<Chapter | null>(null);
 
     useEffect(() => {
-        setLoading(true);
+        // 1. Tenta pegar do localStorage primeiro
+        const cached = localStorage.getItem("chapterData");
+        if (cached) {
+            try {
+                const parsed: Chapter = JSON.parse(cached);
+                setChapterData(parsed);
+                setLoading(false); // já mostra capítulo
+            } catch (e) {
+                console.error("Erro ao parsear cache:", e);
+            }
+        }
 
+        // 2. Busca da API em paralelo
         fetch("/api/chapter")
             .then((res) => res.json())
-            .then((data) => {
-                setChapterData(data);
+            .then((data: Chapter) => {
+                // só atualiza se não existir cache ou se for diferente
+                if (!cached || JSON.stringify(data) !== cached) {
+                    localStorage.setItem("chapterData", JSON.stringify(data));
+                    setChapterData(data);
+                }
                 setLoading(false);
             })
-            .catch(console.error);
+            .catch((err) => {
+                console.error("Erro na API:", err);
+                setLoading(false);
+            });
     }, []);
 
-    if (!chapterData || loading)
+    if (!chapterData || (loading && !localStorage.getItem("chapterData"))) {
         return <LoadingSpinner text="Carregando Capítulo..." />;
+    }
 
     return (
         <>
-            <section className="text-container">
+            <section className="text-container fade-in">
                 <div>
                     <h2>
                         {chapterData.book}
@@ -51,15 +69,14 @@ export default function Home() {
                     ))}
                 </ul>
             </section>
-            <section className="text-container">
-                {chapterData && (
-                    <Summary
-                        book={chapterData.book}
-                        chapter={chapterData.chapter}
-                        verses={chapterData.verses}
-                        chapterId={chapterData.chapterId} // passa para o Summary
-                    />
-                )}
+
+            <section className="text-container fade-in">
+                <Summary
+                    book={chapterData.book}
+                    chapter={chapterData.chapter}
+                    verses={chapterData.verses}
+                    chapterId={chapterData.chapterId}
+                />
             </section>
         </>
     );
