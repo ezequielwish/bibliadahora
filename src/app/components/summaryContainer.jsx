@@ -5,6 +5,7 @@ import LoadingSpinner from "./LoadingSpinner.jsx";
 export default function Summary({ book, chapter, verses, chapterId }) {
     const [loading, setLoading] = useState(true);
     const [summary, setSummary] = useState("");
+    const [imageUrl, setImageUrl] = useState("/assets/image.png");
 
     const LOCAL_STORAGE_KEY = "currentChapterSummary";
 
@@ -20,10 +21,14 @@ export default function Summary({ book, chapter, verses, chapterId }) {
             const parsed = JSON.parse(cachedData);
             if (parsed.chapterId === chapterId) {
                 setSummary(parsed.summary);
+                setImageUrl(parsed.imageUrl || "/assets/image.png");
                 setLoading(false);
                 return;
             }
         }
+
+        let fetchedSummary = "";
+        let fetchedImageUrl = "/assets/image.png";
 
         // Faz a requisição para obter o resumo do capítulo
         fetch("/api/summary", {
@@ -33,17 +38,41 @@ export default function Summary({ book, chapter, verses, chapterId }) {
         })
             .then((res) => res.json())
             .then((resumoData) => {
-                const resumo = resumoData.summary || "Resumo não disponível";
-                setSummary(resumo);
-                setLoading(false);
+                fetchedSummary = resumoData.summary || "Resumo não disponível";
+                setSummary(fetchedSummary);
 
-                // Salva no localStorage com o chapterId
+                // Depois de pegar o resumo, busca a imagem
+                return fetch("/api/image", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt: `${book} capítulo ${chapter}`,
+                    }),
+                });
+            })
+            .then((res) => res.json())
+            .then((imageData) => {
+                if (imageData.imageUrl) {
+                    fetchedImageUrl = imageData.imageUrl;
+                    setImageUrl(fetchedImageUrl);
+                }
+
+                // Salva resumo e imagem no localStorage
                 localStorage.setItem(
                     LOCAL_STORAGE_KEY,
-                    JSON.stringify({ chapterId, summary: resumo })
+                    JSON.stringify({
+                        chapterId,
+                        summary: fetchedSummary,
+                        imageUrl: fetchedImageUrl,
+                    })
                 );
+
+                setLoading(false);
             })
-            .catch(console.error);
+            .catch((err) => {
+                console.error(err);
+                setLoading(false);
+            });
     }, [book, chapter, verses, chapterId]);
 
     if (loading) {
@@ -55,8 +84,8 @@ export default function Summary({ book, chapter, verses, chapterId }) {
             <figure>
                 <img
                     className="image"
-                    src="/assets/image.png"
-                    alt="Imagem ilustrativa"
+                    src={imageUrl}
+                    alt={`${book} capítulo ${chapter}`}
                 />
                 <figcaption className="image-description">
                     Imagem representativa do capítulo

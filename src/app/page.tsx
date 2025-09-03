@@ -46,7 +46,7 @@ export default function Home() {
     }, []);
 
     if (!chapterData || (loading && !localStorage.getItem("chapterData"))) {
-        return <LoadingSpinner text="Carregando Capítulo..." />;
+        return <LoadingSpinner text="Carregando capítulo..." />;
     }
 
     return (
@@ -57,7 +57,7 @@ export default function Home() {
                         {chapterData.book}
                         <span className="chapter">
                             {" "}
-                            | capítulo: {chapterData.chapter}
+                            | capítulo {chapterData.chapter}
                         </span>
                     </h2>
                 </div>
