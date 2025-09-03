@@ -11,7 +11,9 @@ li {
 }
 
 .image {
+    object-fit: "cover";
     width: 100%;
+    height: auto;
     border-radius: 6px;
     max-width: 90vw;
     margin: 0 auto;
