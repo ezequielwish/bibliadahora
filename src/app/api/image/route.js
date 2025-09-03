@@ -1,30 +1,33 @@
 export async function POST(req) {
   try {
-    const { query } = await req.json(); // recebe o termo de busca
+    const { book, chapter, keywords } = await req.json(); // keywords vindas do resumo
 
     if (!process.env.PEXELS_API_KEY) {
       throw new Error("A variável PEXELS_API_KEY não está configurada");
     }
 
-    // Faz a requisição à API do Pexels
-    const response = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(query || "Bíblia")}&per_page=1`, {
-      headers: {
-        Authorization: process.env.PEXELS_API_KEY
+    // Monta a query combinando livro, capítulo e keywords
+    const query = `${book} capítulo ${chapter} ${keywords?.join(" ") || ""}`;
+
+    // Busca até 5 imagens relacionadas
+    const response = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=5`,
+      {
+        headers: {
+          Authorization: process.env.PEXELS_API_KEY
+        }
       }
-    });
+    );
 
     const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data?.error || "Erro ao buscar imagem");
-    }
-
-    // Pega a primeira imagem retornada
-    const imageUrl = data.photos?.[0]?.src?.large || null;
-
-    if (!imageUrl) {
+    if (!response.ok || !data.photos?.length) {
       throw new Error("Nenhuma imagem encontrada para a busca");
     }
+
+    // Escolhe aleatoriamente uma das imagens retornadas
+    const randomIndex = Math.floor(Math.random() * data.photos.length);
+    const imageUrl = data.photos[randomIndex].src.large;
 
     return new Response(
       JSON.stringify({ imageUrl }),
