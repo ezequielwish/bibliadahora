@@ -14,6 +14,9 @@ export async function GET() {
 
     // Gera um número a partir do hash da seed
     const seed = getCurrentHourSeed();
+
+    // const seed = "2024-05-31-10"; // Simulação de hora fixa para testes
+    
     const hash = crypto.createHash("sha256").update(seed).digest("hex");
     const seedInt = parseInt(hash.substring(0, 8), 16);
 
