@@ -13,9 +13,7 @@ export async function GET() {
     const books = bibleData;
 
     // Gera um número a partir do hash da seed
-    // const seed = getCurrentHourSeed();
-    // simulação de hora fixa para testes
-    const seed = "2024-06-11-12";
+    const seed = getCurrentHourSeed();
     const hash = crypto.createHash("sha256").update(seed).digest("hex");
     const seedInt = parseInt(hash.substring(0, 8), 16);
 
